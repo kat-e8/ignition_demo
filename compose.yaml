@@ -1,4 +1,31 @@
 services:
+  backup:
+    build:
+      context: backup-build
+      args:
+        IGNITION_VERSION: 8.1.48
+    hostname: backup
+    container_name: backup
+    ports:
+      - 9095:8088
+      - 1884:1883
+    volumes:
+      - backup-data:/usr/local/bin/ignition/data
+      - ./gw-init/backup.gwbk:/restore.gwbk
+      - ./gw-init/backup-uuid.txt:/usr/local/bin/ignition/data/.uuid
+      - ./gw-init/backup-metro-keystore:/usr/local/bin/ignition/data/local/metro-keystore
+#      - ./pylib/speciallibrary.py:/usr/local/bin/ignition/user-lib/pylib/speciallibrary.py
+    networks:
+      - backup-network
+    environment:
+      - IGNITION_EDITION=standard
+      - GATEWAY_ADMIN_PASSWORD=katlego
+      - ACCEPT_IGNITION_EULA=Y
+      - GATEWAY_MODULES_ENABLED=alarm-notification,enterprise-administration,opc-ua,perspective,reporting,sfc,sms-notification,sql-bridge,symbol-factory,tag-historian,voice-notification,web-developer
+    command: >
+      -n backup-gateway
+      -m 2048
+      -r /restore.gwbk
   primary:
     build:
       context: primary-build
@@ -17,7 +44,7 @@ services:
       - ./pylib/speciallibrary.py:/usr/local/bin/ignition/user-lib/pylib/speciallibrary.py
     networks:
      # - edge-network
-    #  - backup-network
+      - backup-network
       - primary-network
     environment:
       - IGNITION_EDITION=standard
@@ -88,8 +115,10 @@ services:
 
 networks:
   primary-network:
+  edge-network:
 volumes:
   mongodb-data:
   pg-data:
   mssql-data:
   primary-data:
+  backup-data:
