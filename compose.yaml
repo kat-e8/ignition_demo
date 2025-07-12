@@ -115,7 +115,7 @@ services:
 
 networks:
   primary-network:
-  edge-network:
+  backup-network:
 volumes:
   mongodb-data:
   pg-data:
