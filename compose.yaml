@@ -16,6 +16,9 @@ services:
 #      - ./pylib/speciallibrary.py:/usr/local/bin/ignition/user-lib/pylib/speciallibrary.py
     networks:
       - edge-network
+    labels:
+      tsdproxy.enable: true
+      tsdproxy.ephemeral: false
     environment:
       - IGNITION_EDITION=edge
       - GATEWAY_ADMIN_PASSWORD=katlego
