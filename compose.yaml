@@ -1,4 +1,29 @@
 services:
+  edge:
+    build:
+      context: edge-build
+      args:
+        IGNITION_VERSION: 8.1.48
+    hostname: edge
+    container_name: edge
+    ports:
+      - 9093:8088
+    volumes:
+      - edge-data:/usr/local/bin/ignition/data
+      - ./gw-init/edge.gwbk:/restore.gwbk
+     # - ./gw-init/edge-uuid.txt:/usr/local/bin/ignition/data/.uuid
+    #  - ./gw-init/edge-metro-keystore:/usr/local/bin/ignition/data/local/metro-keystore
+#      - ./pylib/speciallibrary.py:/usr/local/bin/ignition/user-lib/pylib/speciallibrary.py
+    networks:
+      - edge-network
+    environment:
+      - IGNITION_EDITION=edge
+      - GATEWAY_ADMIN_PASSWORD=katlego
+      - ACCEPT_IGNITION_EULA=Y
+    command: >
+      -n edge-gateway
+      -m 2048
+      -r /restore.gwbk
   backup:
     build:
       context: backup-build
@@ -116,9 +141,11 @@ services:
 networks:
   primary-network:
   backup-network:
+  edge-network:
 volumes:
   mongodb-data:
   pg-data:
   mssql-data:
   primary-data:
   backup-data:
+  edge-data:
