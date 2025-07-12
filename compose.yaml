@@ -69,7 +69,7 @@ services:
     #  - ./pylib/speciallibrary.py:/usr/local/bin/ignition/user-lib/pylib/speciallibrary.py
     networks:
       - edge-network
-      - backup-network
+      - secondary-network
       - primary-network
     environment:
       - IGNITION_EDITION=standard
