@@ -4,3 +4,18 @@ services:
     ports:
       - 1080:1080
       - 1025:1025
+  mongodb:
+    image: mongo:4.4.18
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb-data:/data/db
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=ignition
+      - MONGO_INITDB_ROOT_PASSWORD=ignition
+    networks:
+      primary-network:
+        aliases:
+          - mongo-db
+
