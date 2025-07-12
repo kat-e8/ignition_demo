@@ -82,15 +82,14 @@ services:
       -r /restore.gwbk
   smtp:
     image: dockage/mailcatcher:0.8.2
-    container_name: stmp
+    container_name: smtp
     ports:
       - 1080:1080
       - 1025:1025
     networks:
       primary-network:
         aliases:
-          - stmp
-
+          - smtp
   mongodb:
     image: mongo:4.4.18
     ports:
