@@ -32,10 +32,26 @@ services:
       - POSGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=pgres
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=yourStrong(!)Password
+      - MSSQL_PID=Developer
+    ports:
+      - 1433:1433
+    volumes:
+      - mssql-data:/var/opt/mssql
+    restart: always
+    networks:
+      primary-network:
+        aliases:
+          - main-db
 
 networks:
   primary-network:
 volumes:
   mongodb-data:
   pg-data:
+  mssql-data:
 
