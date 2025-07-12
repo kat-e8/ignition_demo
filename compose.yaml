@@ -20,4 +20,6 @@ services:
           - mongo-db
 networks:
   primary-network:
+volumes:
+  mongo-db-data:
 
