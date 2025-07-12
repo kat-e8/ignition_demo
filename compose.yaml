@@ -18,8 +18,24 @@ services:
       primary-network:
         aliases:
           - mongo-db
+  pgres:
+    image: postgres:16
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      primary-network:
+        aliases:
+          - pg-db
+    environment:
+      - POSGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=pgres
+
 networks:
   primary-network:
 volumes:
   mongodb-data:
+  pg-data:
 
