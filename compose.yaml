@@ -19,6 +19,7 @@ services:
     labels:
       tsdproxy.enable: true
       tsdproxy.ephemeral: false
+    restart: unless-stopped
     environment:
       - IGNITION_EDITION=edge
       - GATEWAY_ADMIN_PASSWORD=katlego
@@ -46,6 +47,7 @@ services:
     labels:
       tsdproxy.enable: true
       tsdproxy.ephemeral: false
+    restart: unless-stopped
     networks:
       - secondary-network
     environment:
@@ -76,6 +78,7 @@ services:
     labels:
       tsdproxy.enable: true
       tsdproxy.ephemeral: false
+    restart: unless-stopped
     networks:
       - edge-network
       - secondary-network
@@ -98,6 +101,7 @@ services:
     labels:
       tsdproxy.enable: true
       tsdproxy.ephemeral: false
+    restart: unless-stopped
     networks:
       primary-network:
         aliases:
@@ -132,6 +136,7 @@ services:
       - POSGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=pgres
+    restart: unless-stopped
   mssql:
     image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: mssql
