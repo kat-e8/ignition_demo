@@ -10,7 +10,7 @@ services:
       - 9093:8088
     volumes:
       - edge-data:/usr/local/bin/ignition/data
-      - ./gw-init/edge.gwbk:/restore.gwbk
+  #    - ./gw-init/edge.gwbk:/restore.gwbk
      # - ./gw-init/edge-uuid.txt:/usr/local/bin/ignition/data/.uuid
     #  - ./gw-init/edge-metro-keystore:/usr/local/bin/ignition/data/local/metro-keystore
 #      - ./pylib/speciallibrary.py:/usr/local/bin/ignition/user-lib/pylib/speciallibrary.py
@@ -26,8 +26,8 @@ services:
       - ACCEPT_IGNITION_EULA=Y
     command: >
       -n edge-gateway
-      -m 2048
-      -r /restore.gwbk
+      -m 1024
+   #   -r /restore.gwbk
   secondary:
     build:
       context: backup-build
@@ -40,7 +40,7 @@ services:
       - 1884:1883
     volumes:
       - secondary-data:/usr/local/bin/ignition/data
-      - ./gw-init/primary.gwbk:/restore.gwbk
+    #  - ./gw-init/primary.gwbk:/restore.gwbk
     #  - ./gw-init/backup-uuid.txt:/usr/local/bin/ignition/data/.uuid
     #  - ./gw-init/backup-metro-keystore:/usr/local/bin/ignition/data/local/metro-keystore
 #      - ./pylib/speciallibrary.py:/usr/local/bin/ignition/user-lib/pylib/speciallibrary.py
@@ -57,8 +57,8 @@ services:
       - GATEWAY_MODULES_ENABLED=alarm-notification,enterprise-administration,opc-ua,perspective,reporting,sfc,sms-notification,sql-bridge,symbol-factory,tag-historian,voice-notification,web-developer
     command: >
       -n secondary-gateway
-      -m 2048
-      -r /restore.gwbk
+      -m 1024
+     # -r /restore.gwbk
   primary:
     build:
       context: primary-build
@@ -71,7 +71,7 @@ services:
       - 1883:1883
     volumes:
       - primary-data:/usr/local/bin/ignition/data
-      - ./gw-init/primary.gwbk:/restore.gwbk
+   #   - ./gw-init/primary.gwbk:/restore.gwbk
     #  - ./gw-init/primary-uuid.txt:/usr/local/bin/ignition/data/.uuid
     #  - ./gw-init/primary-metro-keystore:/usr/local/bin/ignition/data/local/metro-keystore
     #  - ./pylib/speciallibrary.py:/usr/local/bin/ignition/user-lib/pylib/speciallibrary.py
@@ -90,8 +90,8 @@ services:
       - GATEWAY_MODULES_ENABLED=alarm-notification,enterprise-administration,opc-ua,perspective,reporting,sfc,sms-notification,sql-bridge,symbol-factory,tag-historian,voice-notification,web-developer
     command: >
       -n primary-gateway
-      -m 2048
-      -r /restore.gwbk
+      -m 1024
+    #  -r /restore.gwbk
   smtp:
     image: dockage/mailcatcher:0.8.2
     container_name: smtp
