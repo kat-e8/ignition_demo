@@ -7,7 +7,7 @@ services:
     hostname: edge
     container_name: edge
     ports:
-      - 9093:8088
+      - 9090:8088
     volumes:
       - edge-data:/usr/local/bin/ignition/data
       - ./gw-init/edge.gwbk:/restore.gwbk
@@ -36,7 +36,7 @@ services:
     hostname: secondary
     container_name: secondary
     ports:
-      - 9095:8088
+      - 9092:8088
       - 1884:1883
     volumes:
       - secondary-data:/usr/local/bin/ignition/data
@@ -67,7 +67,7 @@ services:
     hostname: primary
     container_name: primary
     ports:
-      - 9094:8088
+      - 9091:8088
       - 1883:1883
     volumes:
       - primary-data:/usr/local/bin/ignition/data
