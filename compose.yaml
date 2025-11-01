@@ -160,9 +160,9 @@ networks:
   secondary-network:
   edge-network:
 volumes:
-#  mongodb-data:
-#  pg-data:
-#  mssql-data:
+  mongodb-data:
+  pg-data:
+  mssql-data:
   primary-data:
   secondary-data:
   edge-data:
