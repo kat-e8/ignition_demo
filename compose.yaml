@@ -8,7 +8,7 @@ services:
     container_name: primary
     ports:
       - 9061:8088
-      - 1883:1883
+      - 1885:1883
     volumes:
       - primary-data:/usr/local/bin/ignition/data
       - ./gw-init/primary.gwbk:/restore.gwbk
