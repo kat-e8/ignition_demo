@@ -7,7 +7,7 @@ services:
     hostname: primary
     container_name: primary
     ports:
-      - 9091:8088
+      - 9061:8088
       - 1883:1883
     volumes:
       - primary-data:/usr/local/bin/ignition/data
@@ -37,7 +37,7 @@ services:
       context: secondary-build
       args:
         IGNITION_VERSION: 8.1.48
-    hostname: secondarys
+    hostname: secondary
     container_name: secondary
     ports:
       - 9062:8088
