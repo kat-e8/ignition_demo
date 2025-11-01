@@ -27,7 +27,7 @@ services:
     command: >
       -n edge-gateway
       -m 1024
-      #    -r /restore.gwbk
+    #    -r /restore.gwbk
 #   secondary:
 #     build:
 #       context: backup-build
