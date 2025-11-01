@@ -18,7 +18,7 @@ services:
     labels:
       tsdproxy.enable: true
       tsdproxy.ephemeral: false
-      restart: unless-stopped
+    restart: unless-stopped
     networks:
       - edge-network
       - secondary-network
@@ -101,7 +101,7 @@ services:
     labels:
       tsdproxy.enable: true
       tsdproxy.ephemeral: false
-      restart: unless-stopped
+    restart: unless-stopped
     networks:
       primary-network:
         aliases:
