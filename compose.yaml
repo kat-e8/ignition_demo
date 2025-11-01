@@ -7,7 +7,7 @@ services:
     hostname: edge
     container_name: edge
     ports:
-      - 9090:8088
+      - 9060:8088
     volumes:
       - edge-data:/usr/local/bin/ignition/data
 #      - ./gw-init/edge.gwbk:/restore.gwbk
