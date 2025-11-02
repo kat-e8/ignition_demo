@@ -30,7 +30,7 @@ services:
 networks:
   gw-network:
 volumes:
-  main-gw-data:
+  demo-main-data:
 
 #are you picking up these changes?
 
