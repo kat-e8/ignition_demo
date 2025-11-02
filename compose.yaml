@@ -1,163 +1,37 @@
 services:
-  primary:
+  main-gw:
     build:
-      context: primary-build
+      context: gw-build
       args:
         IGNITION_VERSION: 8.1.48
-    hostname: primary
-    container_name: demo-primary
+    hostname: main-host
+    container_name: main-gw
     ports:
-      - 9090:8088
-      - 1883:1883
+      - 9050:8088
     volumes:
-      - primary-data:/usr/local/bin/ignition/data
-    #  - ./gw-init/primary.gwbk:/restore.gwbk
-    # - ./gw-init/primary-uuid.txt:/usr/local/bin/ignition/data/.uuid
-    # - ./gw-init/primary-metro-keystore:/usr/local/bin/ignition/data/local/metro-keystore
-    # - ./pylib/speciallibrary.py:/usr/local/bin/ignition/user-lib/pylib/speciallibrary.py
-    labels:
-      tsdproxy.enable: true
-      tsdproxy.ephemeral: false
-    restart: unless-stopped
+      - main-gw-data:/usr/local/bin/ignition/data
+     # - ./gw-init/gold_gw.gwbk:/restore.gwbk
+     # - ./gw-init/gateway-uuid.txt:/usr/local/bin/ignition/data/.uuid
+     # - ./gw-init/gateway-metro-keystore:/usr/local/bin/ignition/data/local/metro-keystore
     networks:
-      - edge-network
-      - secondary-network
-      - primary-network
+      - gw-network
     environment:
       - IGNITION_EDITION=standard
       - GATEWAY_ADMIN_PASSWORD=katlego
       - ACCEPT_IGNITION_EULA=Y
-      - GATEWAY_MODULES_ENABLED=alarm-notification,enterprise-administration,opc-ua,perspective,reporting,sfc,sms-notification,sql-bridge,symbol-factory,tag-historian,voice-notification,web-developer
+    labels:
+      tsdproxy.enable: true
+      tsdproxy.ephemeral: false
+    restart: unless-stopped
     command: >
+      -n main-gw
       -m 1024
    #   -r /restore.gwbk
-  secondary:
-    build:
-      context: secondary-build
-      args:
-        IGNITION_VERSION: 8.1.48
-    hostname: secondary
-    container_name: demo-secondary
-    ports:
-      - 9091:8088
-      - 1884:1883
-    volumes:
-      - secondary-data:/usr/local/bin/ignition/data
-    #  - ./gw-init/secondary.gwbk:/restore.gwbk
-    # - ./gw-init/secondary-uuid.txt:/usr/local/bin/ignition/data/.uuid
-    # - ./gw-init/secondary-metro-keystore:/usr/local/bin/ignition/data/local/metro-keystore
-    # - ./pylib/speciallibrary.py:/usr/local/bin/ignition/user-lib/pylib/speciallibrary.py
-    labels:
-      tsdproxy.enable: true
-      tsdproxy.ephemeral: false
-    restart: unless-stopped
-    networks:
-      - secondary-network
-    environment:
-      - IGNITION_EDITION=standard
-      - GATEWAY_ADMIN_PASSWORD=katlego
-      - ACCEPT_IGNITION_EULA=Y
-      - GATEWAY_MODULES_ENABLED=alarm-notification,enterprise-administration,opc-ua,perspective,reporting,sfc,sms-notification,sql-bridge,symbol-factory,tag-historian,voice-notification,web-developer
-    command: >
-      -m 1024
-  edge:
-    build:
-      context: edge-build
-      args:
-        IGNITION_VERSION: 8.1.48
-    hostname: edge
-    container_name: demo-edge
-    ports:
-      - 9060:8088
-    volumes:
-      - edge-data:/usr/local/bin/ignition/data
-     # - ./gw-init/edge.gwbk:/restore.gwbk
-#      - ./gw-init/edge-uuid.txt:/usr/local/bin/ignition/data/.uuid
-#      - ./gw-init/edge-metro-keystore:/usr/local/bin/ignition/data/local/metro-keystore
-      - ./pylib/speciallibrary.py:/usr/local/bin/ignition/user-lib/pylib/speciallibrary.py
-    networks:
-      - edge-network
-    labels:
-      tsdproxy.enable: true
-      tsdproxy.ephemeral: false
-    restart: unless-stopped
-    environment:
-      - IGNITION_EDITION=edge
-      - GATEWAY_ADMIN_PASSWORD=katlego
-      - ACCEPT_IGNITION_EULA=Y
-    command: >
-      -m 1024
-  #    -r /restore.gwbk
-  smtp:
-    image: dockage/mailcatcher:0.8.2
-    container_name: demo-smtp
-    ports:
-      - 1080:1080
-      - 1025:1025
-    labels:
-      tsdproxy.enable: true
-      tsdproxy.ephemeral: false
-    restart: unless-stopped
-    networks:
-      primary-network:
-        aliases:
-          - smtp
-  mongodb:
-    image: mongo:4.4.18
-    container_name: demo-mongodb
-    ports:
-      - 27017:27017
-    volumes:
-      - mongodb-data:/data/db
-    restart: always
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=ignition
-      - MONGO_INITDB_ROOT_PASSWORD=ignition
-    networks:
-      primary-network:
-        aliases:
-          - mongo-db
-  pgres:
-    image: postgres:16
-    container_name: demo-pgres
-    volumes:
-      - pg-data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-    networks:
-      primary-network:
-        aliases:
-          - pg-db
-    environment:
-      - POSGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=pgres
-    restart: unless-stopped
-  mssql:
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    container_name: demo-mssql
-    environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=yourStrong(!)Password
-      - MSSQL_PID=Developer
-    ports:
-      - 1433:1433
-    volumes:
-      - mssql-data:/var/opt/mssql
-    restart: unless-stopped
-    networks:
-      primary-network:
-        aliases:
-          - main-db
-  
 networks:
-  primary-network:
-  secondary-network:
-  edge-network:
+  gw-network:
 volumes:
-  mongodb-data:
-  pg-data:
-  mssql-data:
-  primary-data:
-  secondary-data:
-  edge-data:
+  main-gw-data:
+
+#are you picking up these changes?
+
+#hello world
