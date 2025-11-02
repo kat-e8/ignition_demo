@@ -5,11 +5,11 @@ services:
       args:
         IGNITION_VERSION: 8.1.48
     hostname: main-host
-    container_name: main-gw
+    container_name: demo-main
     ports:
       - 9050:8088
     volumes:
-      - main-gw-data:/usr/local/bin/ignition/data
+      - demo-main-data:/usr/local/bin/ignition/data
      # - ./gw-init/gold_gw.gwbk:/restore.gwbk
      # - ./gw-init/gateway-uuid.txt:/usr/local/bin/ignition/data/.uuid
      # - ./gw-init/gateway-metro-keystore:/usr/local/bin/ignition/data/local/metro-keystore
