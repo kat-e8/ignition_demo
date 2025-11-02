@@ -5,13 +5,13 @@ services:
       args:
         IGNITION_VERSION: 8.1.48
     hostname: primary
-    container_name: primary
+    container_name: demo-primary
     ports:
-      - 9061:8088
-      - 1885:1883
+      - 9090:8088
+      - 1883:1883
     volumes:
       - primary-data:/usr/local/bin/ignition/data
-      - ./gw-init/primary.gwbk:/restore.gwbk
+    #  - ./gw-init/primary.gwbk:/restore.gwbk
     # - ./gw-init/primary-uuid.txt:/usr/local/bin/ignition/data/.uuid
     # - ./gw-init/primary-metro-keystore:/usr/local/bin/ignition/data/local/metro-keystore
     # - ./pylib/speciallibrary.py:/usr/local/bin/ignition/user-lib/pylib/speciallibrary.py
@@ -29,22 +29,21 @@ services:
       - ACCEPT_IGNITION_EULA=Y
       - GATEWAY_MODULES_ENABLED=alarm-notification,enterprise-administration,opc-ua,perspective,reporting,sfc,sms-notification,sql-bridge,symbol-factory,tag-historian,voice-notification,web-developer
     command: >
-      -n primary
       -m 1024
-      -r /restore.gwbk
+   #   -r /restore.gwbk
   secondary:
     build:
       context: secondary-build
       args:
         IGNITION_VERSION: 8.1.48
     hostname: secondary
-    container_name: secondary
+    container_name: demo-secondary
     ports:
-      - 9062:8088
-      - 1886:1883
+      - 9091:8088
+      - 1884:1883
     volumes:
       - secondary-data:/usr/local/bin/ignition/data
-      - ./gw-init/secondary.gwbk:/restore.gwbk
+    #  - ./gw-init/secondary.gwbk:/restore.gwbk
     # - ./gw-init/secondary-uuid.txt:/usr/local/bin/ignition/data/.uuid
     # - ./gw-init/secondary-metro-keystore:/usr/local/bin/ignition/data/local/metro-keystore
     # - ./pylib/speciallibrary.py:/usr/local/bin/ignition/user-lib/pylib/speciallibrary.py
@@ -60,21 +59,19 @@ services:
       - ACCEPT_IGNITION_EULA=Y
       - GATEWAY_MODULES_ENABLED=alarm-notification,enterprise-administration,opc-ua,perspective,reporting,sfc,sms-notification,sql-bridge,symbol-factory,tag-historian,voice-notification,web-developer
     command: >
-      -n secondary-gateway
       -m 1024
-      -r /restore.gwbk
   edge:
     build:
       context: edge-build
       args:
         IGNITION_VERSION: 8.1.48
     hostname: edge
-    container_name: edge
+    container_name: demo-edge
     ports:
       - 9060:8088
     volumes:
       - edge-data:/usr/local/bin/ignition/data
-      - ./gw-init/edge.gwbk:/restore.gwbk
+     # - ./gw-init/edge.gwbk:/restore.gwbk
 #      - ./gw-init/edge-uuid.txt:/usr/local/bin/ignition/data/.uuid
 #      - ./gw-init/edge-metro-keystore:/usr/local/bin/ignition/data/local/metro-keystore
       - ./pylib/speciallibrary.py:/usr/local/bin/ignition/user-lib/pylib/speciallibrary.py
@@ -89,12 +86,11 @@ services:
       - GATEWAY_ADMIN_PASSWORD=katlego
       - ACCEPT_IGNITION_EULA=Y
     command: >
-      -n edge-gateway
       -m 1024
-      -r /restore.gwbk
+  #    -r /restore.gwbk
   smtp:
     image: dockage/mailcatcher:0.8.2
-    container_name: smtp
+    container_name: demo-smtp
     ports:
       - 1080:1080
       - 1025:1025
@@ -108,6 +104,7 @@ services:
           - smtp
   mongodb:
     image: mongo:4.4.18
+    container_name: mongodb
     ports:
       - 27017:27017
     container_name: mongodb
@@ -123,7 +120,7 @@ services:
           - mongo-db
   pgres:
     image: postgres:16
-    container_name: pgres
+    container_name: demo-pgres
     volumes:
       - pg-data:/var/lib/postgresql/data
     ports:
@@ -139,7 +136,7 @@ services:
     restart: unless-stopped
   mssql:
     image: mcr.microsoft.com/mssql/server:2019-latest
-    container_name: mssql
+    container_name: demo-mssql
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=yourStrong(!)Password
@@ -153,7 +150,6 @@ services:
       primary-network:
         aliases:
           - main-db
-
   
 networks:
   primary-network:
