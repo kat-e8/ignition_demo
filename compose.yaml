@@ -1,7 +1,7 @@
 services:
   main-gw:
     build:
-      context: gw-build
+      context: primary-build
       args:
         IGNITION_VERSION: 8.1.48
     hostname: main-host
