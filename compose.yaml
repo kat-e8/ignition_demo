@@ -7,8 +7,8 @@ services:
     hostname: main-host
     container_name: demo-main
     ports:
-      - 9050:8088
-      - 1883:1883
+      - 9020:8088
+      - 1863:1883
     volumes:
       - demo-main-data:/usr/local/bin/ignition/data
      # - ./gw-init/gold_gw.gwbk:/restore.gwbk
@@ -25,6 +25,7 @@ services:
     labels:
       tsdproxy.enable: true
       tsdproxy.ephemeral: false
+      tsdproxy.name: demo-main
     restart: unless-stopped
     command: >
       -n main-gw
