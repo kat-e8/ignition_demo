@@ -7,7 +7,7 @@ services:
     hostname: main-host
     container_name: demo-main
     ports:
-      - 9020:8088
+      - 9010:8088
       - 1863:1883
     volumes:
       - demo-main-data:/usr/local/bin/ignition/data
